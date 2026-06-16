@@ -1,0 +1,23 @@
+# Data (too large, potentially NSFW)
+data/
+# Model weights
+models/
+# Inference outputs
+outputs/
+# Notebooks
+notebooks/
+# Environment
+.env
+.venv/
+.venv-new/
+# System specs
+system_specs.json
+# Embedded repos / external tools
+claude-code-best-practice/
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+# IDE
+.vscode/
+.idea/

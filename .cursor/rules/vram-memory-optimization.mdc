@@ -1,0 +1,39 @@
+---
+description: Critical constraints and optimizations for the 2 GB VRAM GPU environment.
+globs: "*.py"
+---
+# VRAM Memory Optimization Rules
+
+> [!IMPORTANT]
+> **Hardware Constraint**: The local system runs on an NVIDIA GeForce MX330 GPU with only **2 GB VRAM** (2048 MiB total).
+> OS and driver overhead consume ~200 MiB, leaving **~1848 MiB** for AI models. Peak VRAM usage must **never exceed 1.8 GB (1848 MiB)**.
+
+## 1. PyTorch & Model Execution Rules
+- **No Float32 for Models**: Always use `.half()` or `torch.float16` for model weights. `torch.float32` will cause instant OOM errors.
+- **Batch Size = 1**: Hardcode `batch_size=1` for all inference pipeline operations.
+- **Attention Slicing & CPU Offload**:
+  - Always enable `pipeline.enable_attention_slicing()`
+  - Always enable `pipeline.enable_sequential_cpu_offload()` or `pipeline.enable_model_cpu_offload()`
+- **Memory Cleanup**: Always invoke garbage collection and clear the PyTorch CUDA cache immediately after running a pipeline:
+  ```python
+  import gc
+  import torch
+
+  # Cleanup sequence
+  del pipeline
+  gc.collect()
+  torch.cuda.empty_cache()
+  ```
+
+## 2. Model Loading Strategy (One Model At A Time)
+- **NEVER load two models on the GPU simultaneously**.
+- **CPU Offloading**:
+  - Perform segmentation (e.g., U²-Net) and OpenCV tasks **strictly on the CPU**.
+  - Stable Diffusion runs on the GPU. Before starting SD, ensure the CPU model has freed all temp GPU memory (if any).
+  - Unload Model A entirely (`del model`, `gc.collect()`, `torch.cuda.empty_cache()`) before loading Model B.
+
+## 3. Disallowed Models & Techniques
+- **SDXL, SD3, and Flux are strictly prohibited**. Do not import, recommend, or suggest them.
+- Use only **Stable Diffusion 1.5 Inpainting** (`runwayml/stable-diffusion-v1-5`) as the base model.
+- LoRA rank must be **$\le 32$** to control memory footprint.
+- **ControlNet, IP-Adapter, or multiple dense adapters** are prohibited as they exceed the 2 GB VRAM budget.

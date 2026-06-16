@@ -1,0 +1,38 @@
+---
+description: Git workflow requirements, Conventional Commits specification, and CHANGELOG upkeep.
+globs: "*"
+---
+# Git Workflow Guidelines
+
+## 1. Conventional Commits
+All commits must follow the [Conventional Commits](https://www.conventionalcommits.org/) specification. 
+Commit messages must be written in **English**.
+
+### Format:
+```text
+<type>(<scope>): <description>
+```
+
+### Supported Types:
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation changes only
+- `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc.)
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `chore`: Changes to the build process or auxiliary tools and libraries such as documentation generation
+
+### Examples:
+- `feat(crawl): add Unsplash API crawler with retry logic`
+- `fix(pipeline): resolve VRAM overflow in inpainting step`
+- `docs(changelog): update CHANGELOG for Phase 1 completion`
+
+## 2. Changelog Maintenance
+- **Mandatory Update**: Every significant change or completed phase requires updating [CHANGELOG.md](file:///e:/ImageGeneratedAI/docs/CHANGELOG.md).
+- Update format: `[YYYY-MM-DD] - <Brief description of change>`
+- Insert new entries at the top of the file under the relevant date.
+
+## 3. Git Rules
+- Never commit model weights (`.bin`, `.safetensors`, `.ckpt`) or raw/processed image datasets. These are strictly ignored in `.gitignore`.
+- Ensure all tests pass before making a final commit to tracking branches.

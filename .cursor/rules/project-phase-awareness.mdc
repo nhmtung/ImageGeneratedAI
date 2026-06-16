@@ -1,0 +1,20 @@
+---
+description: Ensure the agent checks and follows the project's Phase Loop and master-plan.
+globs: "*"
+---
+# Project Phase Awareness
+
+## 1. Plan Verification
+- Before beginning any task, the AI Agent must verify the current phase status in [master-plan.md](file:///e:/ImageGeneratedAI/docs/plans/master-plan.md).
+- Do not skip phases or perform tasks belonging to future pending phases unless explicitly requested by the Developer.
+
+## 2. The Phase Loop
+For any task, follow the 8-step Phase Loop defined in [AGENTS.md](file:///e:/ImageGeneratedAI/AGENTS.md):
+1. **Pick Task**: Select the next task from the current Phase's plan file (e.g., `docs/plans/01-crawl-data.md`).
+2. **Plan**: Propose the implementation plan to the Developer.
+3. **Review Plan**: Await Developer approval.
+4. **Execute**: Write code following code standards and VRAM limitations.
+5. **Review Execution**: Have the Developer review the code correctness.
+6. **Test**: Perform verification (e.g., manual test, benchmark).
+7. **Fix / Improve**: Fix failures if any.
+8. **Review & Commit**: Commit and update [CHANGELOG.md](file:///e:/ImageGeneratedAI/docs/CHANGELOG.md).

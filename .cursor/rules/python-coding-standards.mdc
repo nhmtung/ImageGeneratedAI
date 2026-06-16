@@ -1,0 +1,49 @@
+---
+description: Enforce Python coding standards, styling, type hints, and documentation structure.
+globs: "*.py"
+---
+# Python Coding Standards
+
+## 1. Environment & Style
+- Target Version: **Python 3.10+**
+- Style Guide: **PEP 8** compliance.
+- Line Limit: Maximum **120 characters** per line.
+- Path Manipulation: Always prefer `pathlib.Path` over the legacy `os.path` module.
+
+## 2. Type Hints
+- Provide type hints for **all** function signatures, parameters, and return values.
+- Avoid using generic `Any` where possible. Be specific (e.g., `Dict[str, int]`, `Optional[Path]`).
+- Example:
+  ```python
+  from pathlib import Path
+  from typing import Optional, Dict
+
+  def process_image(image_path: Path, config: Dict[str, float]) -> Optional[Path]:
+      ...
+  ```
+
+## 3. Documentation & Docstrings
+- Use **Google-style docstrings** for all classes, methods, and public functions.
+- Format:
+  ```python
+  def run_inference(image_path: Path) -> Path:
+      """Run standard Stable Diffusion inference on an image.
+
+      Args:
+          image_path (Path): Path to the input image file.
+
+      Returns:
+          Path: Path to the generated output image.
+
+      Raises:
+          FileNotFoundError: If the input image does not exist.
+      """
+  ```
+
+## 4. Imports Layout
+Group imports logically in the following order, with a blank line separating each group:
+1. Standard library imports
+2. Third-party library imports
+3. Local/application imports
+
+Always use absolute imports instead of relative imports.
